@@ -1,0 +1,40 @@
+@startuml casosUso
+
+actor "Jogador" as Player
+actor "Administrador do Jogo" as Admin
+actor Desenvolvedor as Dev
+
+rectangle "Sistema de Xadrez" {
+  usecase "Iniciar Jogo" as StartGame
+  usecase "Movimentar Peça" as MovePiece
+  usecase "Verificar Estado do Jogo" as CheckGameState
+  usecase "Salvar Jogo" as SaveGame
+  usecase "Carregar Jogo Salvo" as LoadGame
+  usecase "Monitorar feedback dos usuários" as MF
+}
+
+Player --> StartGame
+Player --> MovePiece
+Player --> CheckGameState
+
+Admin --> StartGame
+Admin --> SaveGame
+Admin --> LoadGame
+
+MovePiece --> StartGame : <<include>>
+CheckGameState --> StartGame : <<include>>
+SaveGame --> StartGame : <<include>>
+
+StartGame --> LoadGame : <<extends>>
+
+
+Dev --> MF 
+
+' Integrantes
+'note as N
+  'Guilherme Lorete Schmidt - 13676857
+  'Luana Hartmann Franco da Cruz - 13676350
+  'João Pedro Gomes - 13839069
+'end note
+
+@enduml

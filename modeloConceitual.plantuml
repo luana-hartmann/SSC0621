@@ -1,0 +1,82 @@
+@startuml modeloConceitual
+skinparam class {
+    BackgroundColor<<Model>> #B8CFE5
+    BackgroundColor<<View>> #C6E4B3
+    BackgroundColor<<Controller>> #F4D3B3
+}
+
+' Agrupamento para o Model
+package "Model" {
+    class Jogador <<Model>> {
+      - nome: String
+      - nivel: int
+      + participarPartida(): void
+    }
+
+    class Peca <<Model>> {
+      - tipo: String
+      - cor: String
+      - posicao: String
+      + mover(): void
+    }
+
+    class Tabuleiro <<Model>> {
+      - dimensoes: String
+      + atualizarPosicoes(): void
+    }
+
+    class Partida <<Model>> {
+      - estadoAtual: String
+      + iniciarPartida(): void
+      + finalizarPartida(): void
+    }
+
+    class RegrasDoJogo <<Model>> {
+      + validarMovimento(): Boolean
+      + verificarXeque(): Boolean
+    }
+}
+
+' Agrupamento para o Controller
+package "Controller" {
+    class PartidaController <<Controller>> {
+      + iniciar(): void
+      + finalizar(): void
+      + processarMovimento(): void
+    }
+}
+
+' Agrupamento para o View
+package "View" {
+    class TabuleiroView <<View>> {
+      + exibirTabuleiro(): void
+    }
+
+    class JogadorView <<View>> {
+      + exibirDetalhesJogador(): void
+    }
+
+    class PartidaView <<View>> {
+      + exibirEstado(): void
+      + notificarVitoria(): void
+    }
+}
+
+' Relacionamentos entre as classes
+Jogador "1" --> "0..*" Partida : participa
+Partida "1" --> "1" Tabuleiro : usa
+Peca "1" --> "1" Jogador : controlada por
+Tabuleiro "1" --> "0..*" Peca : contém
+Partida "1" --> "1" RegrasDoJogo : segue
+PartidaController "1" --> "1" Partida : controla
+PartidaView "1" --> "1" Partida : exibe
+
+
+' Integrantes
+'note as N
+  'Guilherme Lorete Schmidt - 13676857
+  'Luana Hartmann Franco da Cruz - 13676350
+  'João Pedro Gomes - 13839069
+'end note
+
+@enduml

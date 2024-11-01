@@ -1,0 +1,53 @@
+@startuml modeloArquitetura
+package "Sistema de Xadrez" {
+  component "View"{
+    [<<view>> Compontente de Usuários]
+    [<<view>> Compontente de Administrador do Jogo]
+    [<<view>> Compontente de Desenvolvedor]
+  }
+  component "controller"{
+    [<<controller>> Compontente de Usuários]
+    [<<controller>> Compontente de Administrador do Jogo]
+    [<<controller>> Compontente de Desenvolvedor]
+  }
+
+  component "Model"{
+    [Compontente de Acesso à Database de Usuários]
+  }
+
+  database "Database de Usuários" as db
+
+  [<<controller>> Compontente de Usuários] --> [<<view>> Compontente de Usuários] : Atualiza
+  [<<controller>> Compontente de Administrador do Jogo] --> [<<view>> Compontente de Administrador do Jogo] : Atualiza
+  [<<controller>> Compontente de Desenvolvedor] --> [<<view>> Compontente de Desenvolvedor] : Atualiza
+
+  [<<controller>> Compontente de Usuários] <-- [<<view>> Compontente de Usuários] : Ação
+  [<<controller>> Compontente de Administrador do Jogo] <-- [<<view>> Compontente de Administrador do Jogo] : Ação
+  [<<controller>> Compontente de Desenvolvedor] <-- [<<view>> Compontente de Desenvolvedor] : Ação
+
+  [<<controller>> Compontente de Usuários] <-- [Compontente de Acesso à Database de Usuários] : Atualiza
+  [<<controller>> Compontente de Usuários] --> [Compontente de Acesso à Database de Usuários] : Modifica
+
+  db <--> [Compontente de Acesso à Database de Usuários] : CRUD \\ Acessa
+
+
+}
+
+actor "Jogador" as Player
+actor "Administrador do Jogo" as Admin
+actor "Desenvolvedor" as Dev
+
+Player --> [<<view>> Compontente de Usuários]
+
+Admin --> [<<view>> Compontente de Administrador do Jogo]
+
+Dev --> [<<view>> Compontente de Desenvolvedor]
+
+' Integrantes
+'note as N
+  'Guilherme Lorete Schmidt - 13676857
+  'Luana Hartmann Franco da Cruz - 13676350
+  'João Pedro Gomes - 13839069
+'end note
+
+@enduml

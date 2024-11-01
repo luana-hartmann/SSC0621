@@ -1,0 +1,89 @@
+@startuml primeiroUML
+
+class Usuario {
+  - idUsuario : string
+  - nomeUsuario : string
+  - emailUsuario : string
+  + setUsuario()
+  + getUsuario()
+    
+}
+class Estudante {
+  - genero : string
+  - periodo : string
+  + setEstudante()
+  + getEstudante()
+  + getDisciplinasMatriculadas()
+  + getCronograma()
+
+}
+
+class Professor {
+  - salaProfessor : string
+  - telefoneProfessor : string
+  + setProfessor()
+  + getProfessor()
+}
+
+class Turma {
+  - codigoDisciplina : string
+  - listaEstudantes : string
+  - idProfessor : string
+  + listHorarios : string
+  - periodoTurma : string
+  + setTurma()
+  + getTurma()
+  + matricularEstudante()
+}
+
+class Horario {
+  - dia : string
+  - horaInicio : string
+  - horaFinal : string
+  - local : string
+  - idHorario : string
+  + setHorario()
+  + getHorario()
+  + setLocal()
+  + getLocal()
+}
+
+class Disciplina {
+  - codigoDisciplina : string
+  - nomeDisicplina : string
+  - tipoDisciplina : integer
+  + setDisciplina()
+  + getDisciplina()
+}
+
+class AvaliacaoDisciplina {
+  - codigoEstudante : string
+  - codigoDsiciplina : string
+  - frequencia : double
+  - listaNotas : double
+  - pesoNotas : string
+  - mediaFinal : string
+  + calcularMediaFinal()
+  + setNotas()
+  + getNotas()
+}
+
+Usuario <|-- Professor
+Usuario <|-- Estudante
+Estudante "1..*"-->"+ turma 1..*" Turma
+Professor "1" --> "+turma 1..*" Turma
+Turma "1"-->"+ horario 1..*" Horario
+Disciplina "1"-->"+ turma 1..*" Turma
+
+<> diamond
+Estudante "0..1". diamond
+diamond - "0..1" Disciplina
+diamond - "0..1" AvaliacaoDisciplina
+
+' Nota 
+note as N
+    Luana Hartmann Franco da Cruz
+    NUSP: 13676350
+end note
+
+@enduml
