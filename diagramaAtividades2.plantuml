@@ -1,0 +1,35 @@
+@startuml diagramaAtividades2
+|Jogador Atual|
+start
+:Realizar jogada (mover peça);
+|Sistema|
+:Validar movimento;
+
+if (Movimento válido?) then (Sim)
+  |Sistema|
+  :Atualizar tabuleiro;
+  :Verificar condições especiais (xeque, promoção de peão, etc.);
+else (Não)
+  |Sistema|
+  :Exibir mensagem de erro;
+  :Realizar outra jogada (mover peça);
+endif
+
+|Sistema|
+:Verificar xeque-mate ou empate;
+
+if (Partida encerrada?) then (Sim)
+  |Sistema|
+  :Encerrar partida (condições de vitória/empate);
+  :Registrar resultados;
+  stop
+else (Não)
+  |Sistema|
+  :Passar turno para o próximo jogador;
+endif
+
+|Próximo Jogador|
+:Receber notificação de turno;
+:Realizar jogada (mover peça);
+repeat
+@enduml

@@ -1,0 +1,34 @@
+@startuml diagramaAtividades1
+|Usuário|
+start
+:Selecionar tipo de partida (n jogadores);
+:Configurar tempo e regras;
+:Convidar outros jogadores;
+
+|Sistema|
+:Validar configurações da partida;
+
+if (Configurações válidas?) then (Sim)
+  :Criar sala de partida;
+  :Atribuir cores e ordem de jogadas (aleatória ou pré-definida);
+  :Exibir sala aos jogadores;
+else (Não)
+  :Solicitar ajustes nas configurações;
+endif
+
+|Jogadores|
+:Entrar na sala da partida;
+:Confirmar prontidão;
+|Sistema|
+:Validar número de jogadores;
+
+if (Número suficiente de jogadores?) then (Sim)
+  :Iniciar partida;
+else (Não)
+  :Manter sala aberta aguardando novos jogadores;
+  stop
+endif
+
+stop
+@enduml
+

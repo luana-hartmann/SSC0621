@@ -1,0 +1,36 @@
+@startuml diagramaAtividades3
+|Sistema|
+start
+:Verificar condições de encerramento;
+
+if (Condição de vitória alcançada?) then (Sim)
+  |Sistema|
+  :Identificar jogador vencedor;
+  :Anunciar vencedor;
+  :Registrar condição de vitória (Xeque-mate, Rei afogado, etc.);
+else (Não)
+  if (Tempo de jogo esgotado?) then (Sim)
+    |Sistema|
+    :Declarar empate por tempo esgotado;
+    :Registrar empate;
+  else (Não)
+    if (Jogador se rendeu?) then (Sim)
+      |Sistema|
+      :Identificar vencedor com base na rendição;
+      :Anunciar vitória do adversário;
+      :Registrar vitória por rendição;
+    else (Não)
+      |Sistema|
+      :Declarar empate por acordo entre jogadores;
+      :Registrar empate amigável;
+    endif
+  endif
+endif
+
+|Jogadores|
+:Exibir resultados da partida;
+|Sistema|
+:Salvar histórico completo (movimentos, tempo, resultados);
+
+stop
+@enduml
