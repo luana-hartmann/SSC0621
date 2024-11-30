@@ -1,0 +1,23 @@
+@startuml diagramaInteracao2
+actor Jogador
+participant "Interface do Sistema" as Interface
+participant "Controlador de Jogo" as Controlador
+participant "Validador de Movimento" as Validador
+participant "Estado do Jogo" as EstadoJogo
+
+Jogador -> Interface : Selecionar peça e posição de destino
+Interface -> Controlador : Enviar solicitação de movimentação
+Controlador -> Validador : Validar movimento (peça e posição)
+alt Movimento válido
+    Validador --> Controlador : Movimento aprovado
+    Controlador -> EstadoJogo : Atualizar estado do jogo
+    EstadoJogo --> Controlador : Confirmação de atualização
+    Controlador -> Interface : Atualizar tabuleiro para todos os jogadores
+    Interface --> Jogador : Confirmar movimento realizado
+    Controlador -> Interface : Permitir próximo jogador movimentar
+else Movimento inválido
+    Validador --> Controlador : Movimento rejeitado
+    Controlador -> Interface : Notificar "Movimento inválido"
+    Interface --> Jogador : Informar erro
+end
+@enduml

@@ -1,0 +1,18 @@
+@startuml diagramaInteracao1
+actor Administrador as Admin
+participant "Interface do Sistema" as Interface
+participant "Controlador de Jogo" as Controlador
+participant "Sistema de Arquivos" as SistemaArquivos
+
+Admin -> Interface : Clicar em "Salvar Jogo"
+Interface -> Controlador : Solicitar salvamento do jogo
+Controlador -> Controlador : Verificar estado do jogo
+alt Espaço em disco disponível
+    Controlador -> SistemaArquivos : Salvar estado do jogo em arquivo
+    SistemaArquivos --> Controlador : Confirmação de salvamento
+    Controlador -> Interface : Notificar "Jogo salvo com sucesso"
+else Sem espaço em disco
+    Controlador -> Interface : Notificar "Espaço em disco insuficiente"
+end
+Interface --> Admin : Retornar notificação ao administrador
+@enduml

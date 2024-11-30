@@ -1,0 +1,25 @@
+@startuml diagramaInteracao3
+actor Jogador
+participant "Interface do Sistema" as Interface
+participant "Controlador de Jogo" as Controlador
+participant "Gerenciador de Jogadores" as GerJogadores
+participant "Tabuleiro Virtual" as Tabuleiro
+
+Jogador -> Interface : Solicitar início do jogo
+Interface -> Controlador : Enviar solicitação de início
+Controlador -> GerJogadores : Verificar número de jogadores
+alt Jogadores suficientes
+    GerJogadores --> Controlador : Número suficiente
+    Controlador -> GerJogadores : Organizar ordem dos turnos
+    GerJogadores --> Controlador : Ordem definida
+    Controlador -> Tabuleiro : Configurar tabuleiro inicial
+    Tabuleiro --> Controlador : Tabuleiro configurado
+    Controlador -> Interface : Exibir tabuleiro para todos os jogadores
+    Interface --> Jogador : Notificar "Jogo iniciado"
+    Controlador -> Interface : Aguardar movimentação do primeiro jogador
+else Jogadores insuficientes
+    GerJogadores --> Controlador : Número insuficiente
+    Controlador -> Interface : Notificar erro "Jogadores insuficientes"
+    Interface --> Jogador : Informar erro
+end
+@enduml
