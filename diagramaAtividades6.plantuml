@@ -1,0 +1,15 @@
+@startuml diagramaAtividades6
+
+' Diagrama 3: Convidar Jogador
+start
+:Escolher opção de convidar jogador;
+:Inserir informações do jogador a ser convidado;
+:Enviar convites para os jogadores selecionados;
+if (Convites aceitos?) then (Sim)
+  :Atualizar lista de participantes da partida;
+else (Não)
+  :Aguardar resposta dos jogadores convidados;
+endif
+stop
+
+@enduml

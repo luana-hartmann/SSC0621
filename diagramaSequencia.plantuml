@@ -1,0 +1,16 @@
+@startuml diagramaSequencia
+
+title Diagrama de Sequência: Carregar Jogo Salvo
+actor "Jogador Administrador" as Admin
+participant "Sistema" as Sistema
+database "Banco de Dados" as BD
+
+Admin -> Sistema : 1. Selecionar opção de carregar jogo salvo
+Sistema -> BD : 2. Consultar lista de jogos salvos
+BD --> Sistema : 3. Retornar lista de jogos
+Admin -> Sistema : 4. Escolher jogo salvo
+Sistema -> BD : 5. Carregar estado do tabuleiro salvo
+BD --> Sistema : 6. Retornar estado salvo
+Sistema -> Admin : 7. Notificar retomada do jogo
+
+@enduml
