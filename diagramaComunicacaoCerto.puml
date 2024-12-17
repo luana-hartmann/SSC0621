@@ -1,0 +1,25 @@
+@startuml
+actor Jogador
+
+boundary "GameWindow (View)" as GW
+boundary "Map (View Auxiliar)" as MAP
+control "Controller" as CTRL
+entity "Board (Model)" as BOARD
+control "Sockets (Network Controller)" as SOCK
+
+Jogador - GW: "1: Clica no tabuleiro \n<&arrow-right>"
+GW - MAP : "2: Checa input no mapa <&arrow-right> \n4: Retorna bool (colisão detectada) <&arrow-left> \n 19: Desenha mapa, peças e posições válidas <&arrow-right>"
+MAP - MAP: "3: Checa colisao com posição no mapa"
+GW -- CTRL : "5: Input detectado (posição clicada) <&arrow-bottom> \n18: Solicita redesenho do tabuleiro e interface <&arrow-top> \n 20: Retorna ao menu se jogador clicar em '<' <&arrow-bottom> "
+CTRL - CTRL: "6: Verifica de peça é válida"
+CTRL -down- BOARD : "7: Verifica se pode mover peça <&arrow-bottom> \n 8: Retorna resultado <&arrow-top> \n9: Move peça <&arrow-bottom> \n 13: Solicita cálculo de movimentos válidos <&arrow-bottom> \n 14: Recebe lista de movimentos válidos <&arrow-top> \n 16: Atualiza estado do jogo conforme mensagem <&arrow-bottom> \n 17: Atualiza posições/turno <&arrow-top>"
+BOARD - BOARD: "10: Atualiza posições e passa turno \n 11: Salva estado do model na database"
+CTRL -left- SOCK: "13: Manda mensagem a outros jogadores <&arrow-left> \n 15: Recebe mensagem com movimento do oponente <&arrow-right>"
+
+'Others arrows icons
+'<&arrow-left>
+'<&arrow-right>
+'<&arrow-top>
+'<&arrow-bottom>
+
+@enduml

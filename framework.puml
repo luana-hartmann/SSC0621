@@ -11,7 +11,7 @@ package "Máquina Local" as maquina {
     }
     database "Database" as db
     [Interface Raylib] as ray
-    [Interface Socket] as net
+    [Interface Web Socket] as net
 }
 
 user <--> pc : interage

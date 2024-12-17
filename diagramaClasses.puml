@@ -1,12 +1,11 @@
 @startuml
 class GameWindow {
-  + screenWidth: int
-  + midScreenWidth: int
-  + screenHeight: int
-  + midScreenHeight: int
-
-  + fps_target: int
-  + fps_cap: bool
+  - screenWidth: int
+  - midScreenWidth: int
+  - screenHeight: int
+  - midScreenHeight: int
+  - fps_target: int
+  - fps_cap: bool
 
   + camera: Camera2D
 
@@ -16,6 +15,8 @@ class GameWindow {
   + initialize()
   + finalize()
   + cameraUpdate()
+  + checkMapInput()
+  + checkMenuClicks()
     
   - drawButton()
 
@@ -37,6 +38,7 @@ class Map {
   + drawPieces()
   + drawHighlights()
   + initializeMap()
+  + checkMapCollision()
 }
 
 class Sockets {
@@ -52,15 +54,15 @@ class Sockets {
 
   - acceptConnections()
   - receiveMessage()
-  - serialize()
+  - receiveLoopClient()
+  - receiveLoopServer()
+  - sendLoopClient()
+  - sendLoopServer()
 
+  + configureMessaging()
   + clearSocket()
-  + startServer(): int
-  + startClient(): int
-  + receiveLoopClient(): int
-  + receiveLoopServer(): int
-  + sendLoopClient()
-  + sendLoopServer()
+  + startServer()
+  + startClient()
   + realClientLoop()
   + realServerLoop()
   + sendMessage()
@@ -79,12 +81,51 @@ class Controller {
   - board: Board
 
   + gameLoop()
-
   - clearController()
   - initialize_positions()
   - receiveMessages()
+  - checkMenuClicks()
   - checkMapClicks()
-  - calculateMoves()
+  - executeMessage()
+  - sendMessages()
+  - serialize()
+  - desserialize()
+}
+
+class Board {
+  - players: int
+  - player_turn: int
+  - active_player: bool[]
+  - my_player: int
+  - positions: int[][][]
+  - highlights: bool[][][]
+  - matchID: int
+
+  + openDB()
+  + saveData()
+  + closeDB()
+  + initializePositions()
+  + move()
+  + calculateMoves()
+  + isPieceValid()
+  + isHighlighted()
+  + fillFalseHighlights()
+  + clear()
+  + getPieceAt()
+  + setPositions()
+  + getPositions()
+  + getHighlights()
+  + setPlayers()
+  + getPlayers()
+  + setPlayerTurn()
+  + getPlayerTurn()
+  + setMyPlayer()
+  + getMyPlayer()
+
+  
+  - database: FILE
+  - ifKingDestroy()
+  - passTurn
   - move()
   - fillFalseMatrix()
   - checkBlock()
@@ -95,20 +136,6 @@ class Controller {
   - calculateBishop()
   - calculateQueen()
   - calculateKing()
-  - executeMessage()
-  - sendMessages()
-}
-
-class Board {
-  + players: int
-  + player_turn: int
-  + active_player: int
-  + my_player: int
-  + positions: int[][][]
-  + matchScore: int
-  + openDB()
-  + saveData()
-  + closeDB()
 }
 
 
@@ -142,10 +169,10 @@ class ConfigController {
   + propagateConfigs()
 }
 
-Controller "1" o-- "2" Map
-Sockets "1" --o "1" Controller
-Controller "1" o-- "1" Board
-Controller "1" o-- "1" GameWindow
+Controller "1" *-- "2" Map
+Sockets "1" --* "1" Controller
+Controller "1" *-- "1" Board
+Controller "1" *-- "1" GameWindow
 GameWindow "1" <-- "1" Map
 StatisticsCalculator "1" <-- Controller
 StatisticsCalculator "1" <--> Board

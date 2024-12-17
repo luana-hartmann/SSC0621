@@ -1,0 +1,81 @@
+@startuml
+actor Jogador
+
+boundary "GameWindow (View)" as GW
+boundary "Map (View Auxiliar)" as MAP
+control "Controller" as CTRL
+entity "Board (Model)" as BOARD
+control "Sockets (Network Controller)" as SOCK
+
+' Interação inicial do usuário
+activate Jogador
+Jogador -> GW: Clica no tabuleiro
+activate GW
+GW -> MAP: Checa input no mapa
+activate MAP
+MAP -> MAP: Checa colisao com posição no mapa
+activate MAP
+deactivate MAP
+MAP --> GW: Retorna bool (colisão detectada)
+deactivate MAP
+
+GW -> CTRL: Input detectado (posição clicada)
+activate CTRL
+CTRL -> CTRL: Verifica de peça é válida
+activate CTRL
+deactivate CTRL
+DEACTIVATE GW
+CTRL -> BOARD: Verifica se pode mover peça
+activate BOARD
+BOARD --> CTRL: Retorna resultado
+deactivate BOARD
+
+alt Movimenta peça
+    CTRL -> BOARD: Move peça
+    activate BOARD
+    BOARD -> BOARD: Atualiza posições e passa turno
+    activate BOARD
+    deactivate BOARD
+    BOARD -> BOARD: Salva estado do model na database
+    activate BOARD
+    deactivate BOARD
+    deactivate BOARD
+    CTRL -> SOCK: Manda mensagem a outros jogadores
+    activate SOCK
+    deactivate SOCK
+else Vê movimentos válidos da peça
+    CTRL -> BOARD: Solicita cálculo de movimentos válidos
+    activate BOARD
+    BOARD --> CTRL: Recebe lista de movimentos válidos
+    deactivate BOARD
+end
+
+' Recebimento de mensagens em rede
+opt Recebe dados de rede
+    SOCK -> CTRL: Recebe mensagem com movimento do oponente
+    activate SOCK
+    deactivate SOCK
+    CTRL -> BOARD: Atualiza estado do jogo conforme mensagem
+    activate BOARD
+    BOARD --> CTRL: Atualiza posições/turno
+    deactivate BOARD
+end
+
+' Redesenho da interface
+CTRL -> GW: Solicita redesenho do tabuleiro e interface
+activate GW
+deactivate CTRL
+GW -> MAP: Desenha mapa, peças e posições válidas
+activate MAP
+deactivate MAP
+
+' Botão de retorno
+GW -> GW: Detecta clique no botão "<"
+activate GW
+deactivate GW
+opt Botão de retorno pressionado
+    GW --> CTRL: Retorna ao menu
+    activate CTRL
+end
+
+@enduml
