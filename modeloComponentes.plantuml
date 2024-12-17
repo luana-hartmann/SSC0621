@@ -1,0 +1,40 @@
+@startuml modeloArquitetura
+  [Componente de Jogo]
+  [Componente de Configuração do Jogo]
+  [Componente de Estatísticas]
+
+  [Componente de Acesso à Database de Estatísticas]
+
+  database "Database de Usuários" as db
+
+
+  [Componente de Jogo] --> [Componente de Configuração do Jogo] : Utiliza
+  [Componente de Estatísticas] --> [Componente de Jogo] : Utiliza
+
+  [Componente de Jogo] --> [Componente de Acesso à Database de Estatísticas] : Atualiza
+  [Componente de Estatísticas] --> [Componente de Acesso à Database de Estatísticas] : Atualiza
+
+  db <--> [Componente de Acesso à Database de Estatísticas] : CRUD \\ Acessa
+
+
+
+
+actor "Jogador Convidado" as Player
+actor "Jogador Administrador" as Admin
+actor "Desenvolvedor" as Dev
+
+Player --> [Componente de Jogo]
+
+Admin --> [Componente de Configuração do Jogo]
+Admin --> [Componente de Jogo]
+
+Dev --> [Componente de Estatísticas]
+
+' Integrantes
+'note as N
+  'Guilherme Lorete Schmidt - 13676857
+  'Luana Hartmann Franco da Cruz - 13676350
+  'João Pedro Gomes - 13839069
+'end note
+
+@enduml

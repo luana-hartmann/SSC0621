@@ -1,47 +1,52 @@
 @startuml modeloArquitetura
-package "Sistema de Xadrez" {
   component "View"{
-    [<<view>> Compontente de Usuários]
-    [<<view>> Compontente de Administrador do Jogo]
-    [<<view>> Compontente de Desenvolvedor]
+    [<<view>> Componente de Jogo]
+    [<<view>> Componente de Configuração do Jogo]
+    [<<view>> Componente de Estatísticas]
   }
   component "controller"{
-    [<<controller>> Compontente de Usuários]
-    [<<controller>> Compontente de Administrador do Jogo]
-    [<<controller>> Compontente de Desenvolvedor]
+    [<<controller>> Componente de Jogo]
+    [<<controller>> Componente de Configuração do Jogo]
+    [<<controller>> Componente de Estatísticas]
   }
 
   component "Model"{
-    [Compontente de Acesso à Database de Usuários]
+    [Componente de Acesso à Database de Estatísticas]
   }
 
-  database "Database de Usuários" as db
+  database "Database de Jogos" as db
 
-  [<<controller>> Compontente de Usuários] --> [<<view>> Compontente de Usuários] : Atualiza
-  [<<controller>> Compontente de Administrador do Jogo] --> [<<view>> Compontente de Administrador do Jogo] : Atualiza
-  [<<controller>> Compontente de Desenvolvedor] --> [<<view>> Compontente de Desenvolvedor] : Atualiza
+  [<<controller>> Componente de Jogo] --> [<<view>> Componente de Jogo] : Atualiza
+  [<<controller>> Componente de Configuração do Jogo] --> [<<view>> Componente de Configuração do Jogo] : Atualiza
+  [<<controller>> Componente de Estatísticas] --> [<<view>> Componente de Estatísticas] : Atualiza
 
-  [<<controller>> Compontente de Usuários] <-- [<<view>> Compontente de Usuários] : Ação
-  [<<controller>> Compontente de Administrador do Jogo] <-- [<<view>> Compontente de Administrador do Jogo] : Ação
-  [<<controller>> Compontente de Desenvolvedor] <-- [<<view>> Compontente de Desenvolvedor] : Ação
+  [<<controller>> Componente de Jogo] --> [<<controller>> Componente de Configuração do Jogo] : Utiliza
+  [<<controller>> Componente de Estatísticas] --> [<<controller>> Componente de Jogo] : Utiliza
 
-  [<<controller>> Compontente de Usuários] <-- [Compontente de Acesso à Database de Usuários] : Atualiza
-  [<<controller>> Compontente de Usuários] --> [Compontente de Acesso à Database de Usuários] : Modifica
+  [<<controller>> Componente de Jogo] <-- [<<view>> Componente de Jogo] : Ação
+  [<<controller>> Componente de Configuração do Jogo] <-- [<<view>> Componente de Configuração do Jogo] : Ação
+  [<<controller>> Componente de Estatísticas] <-- [<<view>> Componente de Estatísticas] : Ação
 
-  db <--> [Compontente de Acesso à Database de Usuários] : CRUD \\ Acessa
+  [<<controller>> Componente de Estatísticas] <-- [Componente de Acesso à Database de Estatísticas] : Notifica
+  [<<controller>> Componente de Estatísticas] --> [Componente de Acesso à Database de Estatísticas] : Atualiza
+  [<<controller>> Componente de Jogo] <-- [Componente de Acesso à Database de Estatísticas] : Notifica
+  [<<controller>> Componente de Jogo] --> [Componente de Acesso à Database de Estatísticas] : Atualiza
+
+  db <--> [Componente de Acesso à Database de Estatísticas] : CRUD \\ Acessa
 
 
-}
 
-actor "Jogador" as Player
-actor "Administrador do Jogo" as Admin
+
+actor "Jogador Convidado" as Player
+actor "Jogador Administrador" as Admin
 actor "Desenvolvedor" as Dev
 
-Player --> [<<view>> Compontente de Usuários]
+Player --> [<<view>> Componente de Jogo]
 
-Admin --> [<<view>> Compontente de Administrador do Jogo]
+Admin --> [<<view>> Componente de Configuração do Jogo]
+Admin --> [<<view>> Componente de Jogo]
 
-Dev --> [<<view>> Compontente de Desenvolvedor]
+Dev --> [<<view>> Componente de Estatísticas]
 
 ' Integrantes
 'note as N

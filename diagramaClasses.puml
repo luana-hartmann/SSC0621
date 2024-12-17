@@ -1,0 +1,155 @@
+@startuml
+class GameWindow {
+  + screenWidth: int
+  + midScreenWidth: int
+  + screenHeight: int
+  + midScreenHeight: int
+
+  + fps_target: int
+  + fps_cap: bool
+
+  + camera: Camera2D
+
+  + generalDraw()
+  + menuDrawLoop()
+  + gameDrawLoop()
+  + initialize()
+  + finalize()
+  + cameraUpdate()
+    
+  - drawButton()
+
+}
+
+class Map {
+  + fractions: int
+  + edge_positions: int[][][]
+  + piece_positions: int[][][]
+  + piece_textures: Texture2D[][]
+  - scale: float
+
+  + drawMap()
+  + drawPlayers()
+  + calculatePoints()
+  + calculatePiecePositions()
+  + loadTextures()
+  + unloadTextures()
+  + drawPieces()
+  + drawHighlights()
+  + initializeMap()
+}
+
+class Sockets {
+  - max_fd: int
+  - fd_reads: fd_set
+  - connection_socket: int
+  - connection_number: int
+  - ip: string
+  - port: int
+  - sockets_list: int[]
+  - inbound_messages: string[]
+  - outbound_messages: string[]
+
+  - acceptConnections()
+  - receiveMessage()
+  - serialize()
+
+  + clearSocket()
+  + startServer(): int
+  + startClient(): int
+  + receiveLoopClient(): int
+  + receiveLoopServer(): int
+  + sendLoopClient()
+  + sendLoopServer()
+  + realClientLoop()
+  + realServerLoop()
+  + sendMessage()
+  + endConnection()
+}
+
+class Controller {
+  - inbound_messages: string[]
+  - outbound_messages: string[]
+
+  - window: GameWindow
+  - gameMap: Map
+  - decorativeMap: Map
+  - sock: Sockets
+  - network_thread: std::thread
+  - board: Board
+
+  + gameLoop()
+
+  - clearController()
+  - initialize_positions()
+  - receiveMessages()
+  - checkMapClicks()
+  - calculateMoves()
+  - move()
+  - fillFalseMatrix()
+  - checkBlock()
+  - moveDirection()
+  - calculatePawn()
+  - calculateRook()
+  - calculateHorse()
+  - calculateBishop()
+  - calculateQueen()
+  - calculateKing()
+  - executeMessage()
+  - sendMessages()
+}
+
+class Board {
+  + players: int
+  + player_turn: int
+  + active_player: int
+  + my_player: int
+  + positions: int[][][]
+  + matchScore: int
+  + openDB()
+  + saveData()
+  + closeDB()
+}
+
+
+class StatisticsCalculator {
+  + playerNumber: int
+  + playerIDs: int[]
+  + timePlayed: float
+  + matchNumber: int
+  + calculateScore()
+  + evaluateStrength()
+  + gameClassification()
+}
+
+class StatsView {
+  + showMatches()
+  + showScoreboard()
+  + showGameFeedback()
+}
+
+class ConfigWindow{
+  + screenWidth: int
+  + screenHeight: int
+  + drawConfigs()
+  + checkButtons()
+}
+
+class ConfigController {
+  + window: ConfigWindow
+  + players: int
+  + matchType: int
+  + propagateConfigs()
+}
+
+Controller "1" o-- "2" Map
+Sockets "1" --o "1" Controller
+Controller "1" o-- "1" Board
+Controller "1" o-- "1" GameWindow
+GameWindow "1" <-- "1" Map
+StatisticsCalculator "1" <-- Controller
+StatisticsCalculator "1" <--> Board
+StatsView "1" <-- StatisticsCalculator
+Controller "1" <-- ConfigController
+ConfigController "1" o-- ConfigWindow
+@enduml

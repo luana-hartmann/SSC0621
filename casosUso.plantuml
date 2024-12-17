@@ -1,34 +1,45 @@
 @startuml casosUso
 
-actor "Jogador" as Player
-actor "Administrador do Jogo" as Admin
-actor Desenvolvedor as Dev
 
-rectangle "Sistema de Xadrez" {
-  usecase "Iniciar Jogo" as StartGame
-  usecase "Movimentar Peça" as MovePiece
-  usecase "Verificar Estado do Jogo" as CheckGameState
-  usecase "Salvar Jogo" as SaveGame
-  usecase "Carregar Jogo Salvo" as LoadGame
-  usecase "Monitorar feedback dos usuários" as MF
-}
+actor "Jogador" as p1
+actor "Jogador Convidado" as Player
+actor "Jogador Administrador" as Admin
+actor "Desenvolvedor" as Dev
 
-Player --> StartGame
-Player --> MovePiece
-Player --> CheckGameState
+usecase "Juntar-se a Partida" as JoinGame
+usecase "Convidar Jogador" as InviteGame
+usecase "Encerrar Partida" as EndGame
+usecase "Iniciar Novo Jogo" as StartGame
+usecase "Selecionar Peça" as SelectPiece
+usecase "Movimentar Peça" as MovePiece
+usecase "Checar Movimentos da Peça" as CheckPiece
+usecase "Verificar Disposição do Tabuleiro" as GameState
+usecase "Tomar Peça de Oponente" as TakePiece
+usecase "Salvar Jogo" as SaveGame
+usecase "Carregar Jogo Salvo" as LoadGame
+usecase "Monitorar feedback dos usuários" as MF
+usecase "Monitorar estatísticas das partidas" as ME
+
+p1 --|> Player
+p1 --|> Admin
+Player --> JoinGame
+Player --> SelectPiece
+Player --> GameState
 
 Admin --> StartGame
-Admin --> SaveGame
-Admin --> LoadGame
-
-MovePiece --> StartGame : <<include>>
-CheckGameState --> StartGame : <<include>>
-SaveGame --> StartGame : <<include>>
+Admin --> EndGame
+Admin --> SelectPiece
+Admin --> GameState
 
 StartGame --> LoadGame : <<extends>>
+StartGame --> InviteGame : <<extends>>
+SelectPiece --> MovePiece : <<extends>>
+SelectPiece --> CheckPiece : <<extends>>
+MovePiece --> TakePiece : <<extends>>
+EndGame --> SaveGame : <<extends>>
 
-
-Dev --> MF 
+Dev --> MF
+Dev --> ME
 
 ' Integrantes
 'note as N
