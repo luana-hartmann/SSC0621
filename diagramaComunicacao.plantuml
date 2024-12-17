@@ -1,0 +1,21 @@
+@startuml diagramaComunicacao
+
+title Diagrama de Comunicação: Carregar Jogo Salvo
+actor "Jogador Administrador" as Admin
+participant "Sistema" as Sistema
+participant "Banco de Dados" as BD
+
+Admin -> Sistema : Seleciona opção de carregar jogo salvo
+Sistema --> BD : Consulta lista de jogos salvos
+BD --> Sistema : Retorna lista
+Admin -> Sistema : Escolhe jogo salvo
+Sistema --> BD : Carrega estado do jogo
+BD --> Sistema : Retorna estado
+Sistema -> Admin : Notifica retomada
+
+note left of Sistema
+    Relação entre Sistema e Banco de Dados
+    para busca e carregamento de estado
+end note
+
+@enduml

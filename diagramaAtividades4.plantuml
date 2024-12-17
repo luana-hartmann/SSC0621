@@ -1,0 +1,20 @@
+@startuml diagramaAtividades4
+
+' Diagrama 1: Iniciar Novo Jogo
+start
+:Escolher número de participantes, regras e adversários;
+:Validar informações fornecidas;
+if (Informações válidas?) then (Sim)
+  :Criar sala de jogo;
+  :Confirmar participação dos jogadores;
+  if (Número mínimo de jogadores atingido?) then (Sim)
+    :Iniciar a partida;
+  else (Não)
+    :Aguardar jogadores adicionais;
+  endif
+else (Não)
+  :Solicitar correção das informações;
+endif
+stop
+
+@enduml

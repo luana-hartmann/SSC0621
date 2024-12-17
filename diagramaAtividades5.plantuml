@@ -1,0 +1,12 @@
+@startuml diagramaAtividades5
+
+' Diagrama 2: Carregar Jogo Salvo
+start
+:Selecionar opção de carregar jogo salvo;
+:Exibir lista de jogos salvos;
+:Escolher o jogo salvo;
+:Carregar estado do tabuleiro salvo;
+:Notificar os jogadores sobre a retomada do jogo;
+stop
+
+@enduml
